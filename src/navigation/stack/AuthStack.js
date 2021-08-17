@@ -11,12 +11,12 @@ const Stack = createStackNavigator()
 function AuthStack() {
     return (
             <Stack.Navigator>
-                <Stack.Screen
+                {/* <Stack.Screen
                     name="Choose"
                     component={Choose}
                     options={{
                         headerShown: false
-                    }} />
+                    }} /> */}
                 <Stack.Screen
                     name="LogIn"
                     component={LogIn}

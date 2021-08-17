@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ToastAndroid } from "react-native"
 import { vh } from "../../constants"
 import firebase from "firebase"
-
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 // import Animated from "react-native-reanimated"
 const SignIn = ({ navigation }) => {
 
@@ -12,9 +12,15 @@ const SignIn = ({ navigation }) => {
 
     useEffect(() => {
         GoogleSignin.configure({
-            webClientId: '738989965571-k9tal3cqhs50te3726chm92is23a5759.apps.googleusercontent.com',
+            webClientId: '388958605091-21pkkfmappjrqcbp6rir3os2oavnd7fj.apps.googleusercontent.com',
         });
     }, [])
+
+    // useEffect(() => {
+    //     GoogleSignin.configure({
+    //         webClientId: '738989965571-k9tal3cqhs50te3726chm92is23a5759.apps.googleusercontent.com',
+    //     });
+    // }, [])
     // let opacity = new Animated.Value(0);
 
     // const animate = easing => {
@@ -52,7 +58,7 @@ const SignIn = ({ navigation }) => {
         // alert(JSON.stringify(data.accessToken))
         // getInfo(data.accessToken)
         const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken)
-        console.log(credential, "CRRRRRRRRRRRRRRRRRRRRR");
+        // console.log(credential, "CRRRRRRRRRRRRRRRRRRRRR");
         if (credential) {
             return firebase.auth().signInWithCredential(credential)
         }
@@ -92,7 +98,9 @@ const SignIn = ({ navigation }) => {
             console.log(userInfo, "INFOOOOOOOOOOOOOOOO");
             const credential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken)
             if (credential) {
-                return firebase.auth().signInWithCredential(credential)
+                console.log(credential,"credentialcredentialcredential");
+                // firebase.database().ref(`users`)
+                // return firebase.auth().signInWithCredential(credential)
             }
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -114,47 +122,84 @@ const SignIn = ({ navigation }) => {
             ToastAndroid.showWithGravity("Please Enter Completete information", ToastAndroid.LONG, ToastAndroid.CENTER)
             return;
         }
-        setLoading(true)
+        // alert(email)
+        // setLoading(true)
         firebase.auth().signInWithEmailAndPassword(email, password)
 
             .then(res => {
-                setLoading(false)
+                // setLoading(false)
                 console.log(res, "RESSSSSSSSSSSSSSS");
 
             })
             .catch(err => {
-                setLoading(false)
-                console.log(err, "ERRRRRRRRRRRRRRRRRRRR");
+                // setLoading(false)
+                console.log(err.message, "ERRRRRRRRRRRRRRRRRRRR");
+                alert(err.message)
             })
     }
 
+
+    // const signInWithGoogle = async () => {
+    //     try {
+    //         await GoogleSignin.hasPlayServices();
+    //         const userInfo = await GoogleSignin.signIn();
+    //         // this.setState({ userInfo });
+    //         console.log(userInfo, "INFOOOOOOOOOOOOOOOO");
+    //         const credential = firebase.auth.GoogleAuthProvider.credential(userInfo.idToken)
+    //         if (credential) {
+    //             return firebase.auth().signInWithCredential(credential)
+    //         }
+    //     } catch (error) {
+    //         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+    //             // user cancelled the login flow
+    //         } else if (error.code === statusCodes.IN_PROGRESS) {
+    //             // operation (e.g. sign in) is in progress already
+    //         } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+    //             // play services not available or outdated
+    //         } else {
+    //             console.log(error, "OHTEEEEEEEEEEEEEEE");
+    //             alert(JSON.stringify(error))
+    //             // some other error happened
+    //         }
+    //     }
+    // }
+
     return (
         <>
-                <View style={{ flex: 1 }}>
-                    <View style={{ marginTop: vh * 0.1, alignItems: "center" }}>
-                        <Text style={{ color: "white", fontSize: 30 }}>Welcome To Crime Monitoring System</Text>
-                    </View>
-                    <View style={{ marginTop: 10 }}>
+            <View style={{ flex: 1, backgroundColor: "#046E4C" }}>
+                <View style={{ marginTop: vh * 0.05, alignItems: "center" }}>
+                    <Text style={{ color: "white", fontSize: 30 }}>Welcome To Taxi App!</Text>
+                </View>
+                <View style={{ marginTop: 30, backgroundColor: "white", flex: 1, borderTopLeftRadius: 30, borderTopRightRadius: 30 }}>
+                    <View style={{ marginTop: 20, marginLeft: 20 }}>
                         <TextInput
                             value={email}
                             placeholder="Email"
+                            placeholderTextColor="#046E4C"
                             onChangeText={(text) => setEmail(text)}
-                            style={{ borderBottomColor: "white", borderBottomWidth: 1 }}
+                            style={{ color: "black", borderBottomColor: "black", borderBottomWidth: 1, fontWeight: "bold", fontSize: 16 }}
                         />
                     </View>
-                    <View style={{ marginTop: 10 }}>
+                    <View style={{ marginTop: 20, marginLeft: 20 }}>
                         <TextInput
                             value={password}
                             placeholder="Password"
+                            placeholderTextColor="#046E4C"
                             onChangeText={(text) => setPassword(text)}
-                            style={{ borderBottomColor: "white", borderBottomWidth: 1 }}
+                            style={{
+                                borderBottomColor: "black",
+                                borderBottomWidth: 1,
+                                fontWeight: "bold", fontSize: 16,
+                                color: "black"
+                            }}
                             secureTextEntry
                         />
                     </View>
                     <TouchableOpacity style={{
                         marginTop: 30,
+                        marginHorizontal: 30,
                         alignItems: "center",
-                        backgroundColor: "#7B68EE",
+                        backgroundColor: "#046E4C",
                         paddingVertical: 10,
                         borderRadius: 10
                     }}
@@ -164,41 +209,45 @@ const SignIn = ({ navigation }) => {
                     </TouchableOpacity>
 
                     <View>
-                        <View style={{ marginTop: 20, alignItems: "center" }}>
-                            <Text style={{ fontSize: 20, color: "white" }}>OR</Text>
-                        </View>
                         <View>
                             <TouchableOpacity style={{
                                 marginTop: 30,
                                 alignItems: "center",
-                                backgroundColor: "#3b5998",
+                                backgroundColor: "white",
                                 paddingVertical: 10,
-                                borderRadius: 10
+                                borderRadius: 10,
+                                marginHorizontal: 30,
+                                borderColor: "#046E4C",
+                                borderWidth: 2
                             }}
-                                onPress={loginWithFacebook}
+                                onPress={() => navigation.navigate("Register")}
                             >
-                                <Text style={{ fontSize: 20, color: "white" }}>Login With Facebook</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{
-                                marginTop: 30,
-                                alignItems: "center",
-                                backgroundColor: "#E74C3C",
-                                paddingVertical: 10,
-                                borderRadius: 10
-                            }}
-                                onPress={signInWithGoogle}
-                            >
-                                <Text style={{ fontSize: 20, color: "white" }}>Login With Google</Text>
+                                <Text style={{ fontSize: 20, color: "#046E4C" }}>SignUp</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{ flexDirection: "row", marginTop: 20, justifyContent: "center", flex: 1 }}>
+
+                    <TouchableOpacity style={{
+                        marginTop: 30,
+                        alignItems: "center",
+                        backgroundColor: "#E74C3C",
+                        paddingVertical: 10,
+                        borderRadius: 10,
+                        marginHorizontal: 30,
+                    }}
+                        onPress={signInWithGoogle}
+                    >
+                        <Text style={{ fontSize: 20, color: "white" }}>Login With Google</Text>
+                    </TouchableOpacity>
+                    {/* <View style={{ flexDirection: "row", marginTop: 20, justifyContent: "center", flex: 1 }}>
                         <Text style={{ color: "white" }}>Dont have a Account?</Text>
                         <TouchableOpacity onPress={() => navigation.navigate("Register")}>
                             <Text style={{ color: "white", fontSize: 16 }}>   Register</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </View>
+
+            </View>
 
         </>
     )

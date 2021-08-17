@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import firebase from "firebase"
 import AuthStack from "./stack/AuthStack"
 import DriverStack from "./stack/DriverStack"
+import UserStack from "./stack/userStack"
 import Loader from "../components/Loader"
 import fire from "../database"
 
@@ -18,6 +19,7 @@ const Router = () => {
                     firebase.database().ref(`users/${user.uid}`).on("value", snapshot => {
                         // alert(JSON.stringify(snapshot.val()))
                         if (snapshot.val().type == "User") {
+                            setComponent(<UserStack />)
                         }
                         else {
                             setComponent(<DriverStack />)

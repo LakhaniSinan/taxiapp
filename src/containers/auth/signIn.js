@@ -28,6 +28,7 @@ const SignIn = ({ navigation }) => {
     const [numberPlate, setNumberPlate] = useState("")
     const [phone, setPhone] = useState("")
     const [password, setPassword] = useState("")
+    const [carName, setCarName] = useState("")
     const [loading, setLoading] = useState(false)
     const [filePath, setFilePath] = useState(null);
 
@@ -46,7 +47,8 @@ const SignIn = ({ navigation }) => {
                 email,
                 numberPlate,
                 phone,
-                type: "Driver"
+                type: "Driver",
+                carName
             }
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(res => {
@@ -150,6 +152,7 @@ const SignIn = ({ navigation }) => {
             <>
                 <View style={{ marginTop: 10 }}>
                     <TextInput
+                        placeholderTextColor="white"
                         value={name}
                         placeholder="Driver Name"
                         onChangeText={(text) => setName(text)}
@@ -158,6 +161,16 @@ const SignIn = ({ navigation }) => {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <TextInput
+                        placeholderTextColor="white"
+                        value={carName}
+                        placeholder="Car Name"
+                        onChangeText={(text) => setCarName(text)}
+                        style={{ borderBottomColor: "white", borderBottomWidth: 1 }}
+                    />
+                </View>
+                <View style={{ marginTop: 10 }}>
+                    <TextInput
+                        placeholderTextColor="white"
                         value={numberPlate}
                         placeholder="Car Number Plate"
                         onChangeText={(text) => setNumberPlate(text)}
@@ -166,6 +179,7 @@ const SignIn = ({ navigation }) => {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <TextInput
+                        placeholderTextColor="white"
                         value={phone}
                         placeholder="Phone Number"
                         onChangeText={(text) => setPhone(text)}
@@ -175,6 +189,7 @@ const SignIn = ({ navigation }) => {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <TextInput
+                        placeholderTextColor="white"
                         value={email}
                         placeholder="Email"
                         onChangeText={(text) => setEmail(text)}
@@ -183,6 +198,7 @@ const SignIn = ({ navigation }) => {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <TextInput
+                        placeholderTextColor="white"
                         value={password}
                         placeholder="Password"
                         secureTextEntry
@@ -199,6 +215,7 @@ const SignIn = ({ navigation }) => {
             <>
                 <View style={{ marginTop: 10 }}>
                     <TextInput
+                        placeholderTextColor="white"
                         value={name}
                         placeholder="UserName"
                         onChangeText={(text) => setName(text)}
@@ -207,6 +224,7 @@ const SignIn = ({ navigation }) => {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <TextInput
+                        placeholderTextColor="white"
                         value={phone}
                         placeholder="Phone Number"
                         onChangeText={(text) => setPhone(text)}
@@ -216,6 +234,7 @@ const SignIn = ({ navigation }) => {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <TextInput
+                        placeholderTextColor="white"
                         value={email}
                         placeholder="Email"
                         onChangeText={(text) => setEmail(text)}
@@ -224,6 +243,7 @@ const SignIn = ({ navigation }) => {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <TextInput
+                        placeholderTextColor="white"
                         value={password}
                         placeholder="Password"
                         secureTextEntry
@@ -299,27 +319,35 @@ const SignIn = ({ navigation }) => {
 
     return (
         <>
-            <ScrollView>
-                <View style={{ flex: 1, backgroundColor: "blue" }}>
-                    <View style={{ marginTop: vh * 0.1, alignItems: "center" }}>
-                        <Text style={{ color: "black", fontSize: 30 }}>Welcome To Taxi Application</Text>
-                    </View>
+            <View style={{ flex: 1, backgroundColor: "#046E4C" }}>
+                <ScrollView>
 
-                    <View style={{ marginTop: 0.1 * vh, justifyContent: "space-around", alignItems: "center", flexDirection: "row" }}>
+                    <View style={{ marginTop: vh * 0.1, alignItems: "center" }}>
+                        <Text style={{ color: "white", fontSize: 26 }}>Welcome To Taxi Application!</Text>
+                    </View>
+                    <Text style={{ marginTop: 0.1 * vh, textAlign: "center", fontSize: 20, color: "white", marginBottom: 20 }}>Please Choose</Text>
+                    <View style={{
+                        justifyContent: "space-around",
+                        alignItems: "center",
+                        flexDirection: "row",
+                    }}>
                         <TouchableOpacity onPress={() => SetSelected("Driver")}>
-                            <View style={{ height: 80, backgroundColor: "pink", width: 0.3 * vw, paddingHorizontal: 30, justifyContent: "center" }}>
-                                <Text style={{ textAlign: "center" }}>Driver</Text>
+                            <View style={{ borderRadius: 20, height: 80, backgroundColor: "white", width: 0.3 * vw, paddingHorizontal: 30, justifyContent: "center" }}>
+                                <Text style={{ textAlign: "center", color: "#046E4C", fontWeight: "bold", fontSize: 16 }}>Driver</Text>
                             </View>
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => SetSelected("User")}>
-                            <View style={{ height: 80, backgroundColor: "pink", width: 0.3 * vw, justifyContent: "center" }}>
-                                <Text style={{ textAlign: "center" }}>User</Text>
+                            <View style={{
+                                borderRadius: 20,
+                                height: 80, backgroundColor: "white", width: 0.3 * vw, justifyContent: "center"
+                            }}>
+                                <Text style={{ textAlign: "center", color: "#046E4C", fontWeight: "bold", fontSize: 16 }}>User</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
 
-                    <View style={{ alignItems: "center", marginTop: 20, borderRadius: 200 }}>
+                    {/* <View style={{ alignItems: "center", marginTop: 20, borderRadius: 200 }}>
                         <View>
                             <Image
                                 source={require("../../assets/download.jpg")}
@@ -331,9 +359,13 @@ const SignIn = ({ navigation }) => {
                                 <Entypo name="camera" size={24} color="white" style={{ marginLeft: vw * 0.1 }} />
                             </TouchableOpacity>
                         </View>
-                    </View>
+                    </View> */}
 
-                    {selected == "Driver" ? renderDriver() : selected == "User" ? renderUser() : <Text>Please Select Option</Text>}
+                    {selected == "Driver" ? renderDriver() : selected == "User" ? renderUser() :
+                        <Text style={{
+                            marginTop: 0.05* vh, textAlign: "center", fontSize: 20, color: "white", marginBottom: 20
+                        }}>Please Select Option</Text>
+                    }
                     {/* <View style={{ alignItems: "center", marginTop: 20, borderRadius: 200 }}>
                         <View>
                             <Image
@@ -347,22 +379,41 @@ const SignIn = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
                     </View> */}
-
-
                     <TouchableOpacity style={{
                         marginTop: 30,
                         alignItems: "center",
-                        backgroundColor: "#7B68EE",
+                        backgroundColor: "white",
                         paddingVertical: 10,
-                        borderRadius: 10
+                        backgroundColor: "white",
+                        marginHorizontal: 30,
+                        borderRadius: 10,
+                        borderColor: "#046E4C",
+                        borderWidth: 2
                     }}
                         onPress={signInUser}
                     >
-                        <Text style={{ fontSize: 20, color: "white" }}>Create Account</Text>
+                        <Text style={{ fontSize: 20, color: "#046E4C", fontWeight: "bold", fontStyle: "italic" }}>Create Account</Text>
                     </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity style={{
+                            marginTop: 10,
+                            alignItems: "center",
+                            backgroundColor: "white",
+                            paddingVertical: 10,
+                            borderRadius: 10,
+                            marginHorizontal: 30,
+                            borderColor: "#046E4C",
+                            borderWidth: 2,
+                            marginBottom:10
+                        }}
+                            onPress={() => navigation.navigate("LogIn")}
+                        >
+                            <Text style={{ fontSize: 20, color: "#046E4C", fontWeight: "bold", fontStyle: "italic" }}>Login</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+            </View>
 
-                </View>
-            </ScrollView>
 
         </>
     )
